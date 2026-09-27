@@ -1,0 +1,16 @@
+# Devpost Learn — personal learning context stays local by default
+/devpost/learner-profile.md
+
+# Local secrets (allow a secret-free .env.example)
+.env
+.env.*
+!.env.example
+
+# Common local junk
+node_modules/
+.DS_Store
+*.log
+
+# Local working brief (may contain personal context)
+BRIEF.md
+.claude/
