@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlockBoard — Desk Router</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>FlockBoard</h1>
+      <p class="tag">Desk router for a one-person company — paste a messy task, get a role + brief + yes/no.</p>
+    </header>
+
+    <section aria-labelledby="task-label">
+      <label id="task-label" for="task">Messy task</label>
+      <textarea id="task" name="task" rows="5" placeholder="e.g. vendor invoice is late and I still need to ship the newsletter draft"></textarea>
+      <div class="row">
+        <button type="button" id="route-btn" class="btn-primary">Route</button>
+      </div>
+      <p id="form-msg" class="hint" role="status">Paste a messy task to get a routing card.</p>
+    </section>
+
+    <section id="card" class="card" hidden aria-live="polite">
+      <p class="role-line">Role</p>
+      <p id="card-role" class="role">ops</p>
+      <p class="brief-label">Brief</p>
+      <p id="card-brief" class="brief"></p>
+      <p id="card-status" class="status" hidden></p>
+      <div class="row" id="card-actions">
+        <button type="button" id="yes-btn" class="btn-primary">Yes</button>
+        <button type="button" id="no-btn" class="btn-ghost">No</button>
+        <button type="button" id="copy-btn" class="btn-ghost">Copy brief</button>
+      </div>
+    </section>
+
+    <footer>
+      <p>Local only · four roles · no cloud · MIT</p>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
