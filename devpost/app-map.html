@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlockBoard — App Map</title>
+  <style>
+    :root {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      color: #1c1917;
+      background: #f4f1ea;
+      line-height: 1.45;
+    }
+    body { max-width: 40rem; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    h1 { font-size: 1.4rem; margin: 0 0 0.35rem; }
+    h2 { font-size: 1.05rem; margin: 1.75rem 0 0.5rem; }
+    p, li { color: #292524; }
+    .muted { color: #57534e; font-size: 0.92rem; }
+    .box {
+      background: #fffcf7; border: 1px solid #d6d3d1; border-radius: 12px;
+      padding: 1rem 1.1rem; margin: 0.75rem 0;
+    }
+    code, .path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.88em; }
+    svg { width: 100%; max-width: 36rem; height: auto; display: block; margin: 0.75rem 0; }
+    details { margin: 0.5rem 0; }
+    summary { cursor: pointer; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>FlockBoard — App Map</h1>
+  <p class="muted">Snapshot after <code>5-build</code>. Local desk router: paste a messy task → role + one-line brief + yes/no. No cloud.</p>
+
+  <h2>What it is</h2>
+  <p>One static page. A small rules engine in JavaScript scores keyword/phrase signals for four roles (<strong>ops</strong>, <strong>marketing</strong>, <strong>research</strong>, <strong>code</strong>), picks the highest score (fixed tie-break), and paints a routing card. Human Yes/No stays in the loop; Copy puts the brief on the clipboard when allowed.</p>
+
+  <h2>One action through the system</h2>
+  <div class="box">
+    <svg viewBox="0 0 640 120" role="img" aria-label="Paste flows to Router then Routing Card">
+      <rect x="8" y="28" width="170" height="64" rx="10" fill="#ccfbf1" stroke="#0f766e"/>
+      <text x="93" y="58" text-anchor="middle" font-size="14" font-family="system-ui">UI Shell</text>
+      <text x="93" y="76" text-anchor="middle" font-size="11" font-family="system-ui" fill="#57534e">index.html</text>
+      <path d="M186 60 H230" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
+      <rect x="230" y="28" width="170" height="64" rx="10" fill="#ffedd5" stroke="#9a3412"/>
+      <text x="315" y="58" text-anchor="middle" font-size="14" font-family="system-ui">Router</text>
+      <text x="315" y="76" text-anchor="middle" font-size="11" font-family="system-ui" fill="#57534e">route() in app.js</text>
+      <path d="M408 60 H452" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
+      <rect x="452" y="28" width="180" height="64" rx="10" fill="#dcfce7" stroke="#166534"/>
+      <text x="542" y="58" text-anchor="middle" font-size="14" font-family="system-ui">Routing Card</text>
+      <text x="542" y="76" text-anchor="middle" font-size="11" font-family="system-ui" fill="#57534e">role · brief · yes/no</text>
+      <defs>
+        <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#1c1917"/>
+        </marker>
+      </defs>
+    </svg>
+    <p class="muted">Visible result: a desk card with one of four roles and a copyable brief.</p>
+  </div>
+
+  <h2>Reference route (3 stops)</h2>
+  <ol>
+    <li><span class="path">index.html</span> — <code>#task</code>, <code>#route-btn</code>, <code>#card</code>: paste surface and card markup.</li>
+    <li><span class="path">app.js</span> — <code>route(taskText)</code>: normalize, score <code>SIGNALS</code>, pick role, build brief.</li>
+    <li><span class="path">app.js</span> — <code>mount(document)</code> handlers for Route / Yes / No / Copy: card state <code>idle | ready | accepted | rejected</code>.</li>
+  </ol>
+
+  <h2>To change this, start here</h2>
+  <ul>
+    <li>Role keywords → <code>SIGNALS</code> in <span class="path">app.js</span>; re-run <code>node smoke_test.js</code> and update <span class="path">SAMPLES.md</span>.</li>
+    <li>Brief wording → <code>VERBS</code> / <code>oneLineBrief</code> in <span class="path">app.js</span>.</li>
+    <li>Look and feel → <span class="path">styles.css</span> (<code>--accent</code>, card layout).</li>
+    <li>Empty-submit copy → <code>onRoute</code> message in <code>mount</code>.</li>
+  </ul>
+
+  <h2>A practice to reuse</h2>
+  <div class="box">
+    <p>The kernel was a single observable card (role + brief + yes/no). Spec locked heuristics instead of a paid LLM; <code>smoke_test.js</code> + <span class="path">SAMPLES.md</span> turned that unknown into eight checked examples. Next time: name the filmable beat first, then verify the risky assumption with a tiny script—not a framework.</p>
+    <p class="muted">Evidence: <span class="path">devpost/spec.md</span> → Decisions and Open Issues; <span class="path">SAMPLES.md</span>; <code>node smoke_test.js</code> exit 0.</p>
+  </div>
+
+  <h2>Run again</h2>
+  <pre class="box">open index.html
+# or: python3 -m http.server 8000  →  http://localhost:8000/
+node smoke_test.js</pre>
+  <p class="muted">Map source commit: see latest <code>5-build</code> wrap-up commit on <code>main</code>. Snapshot can drift if files change later.</p>
+
+  <details>
+    <summary>Files that matter</summary>
+    <ul>
+      <li><span class="path">index.html</span>, <span class="path">app.js</span>, <span class="path">styles.css</span></li>
+      <li><span class="path">LICENSE</span> (MIT), <span class="path">README.md</span>, <span class="path">SAMPLES.md</span>, <span class="path">smoke_test.js</span></li>
+      <li><span class="path">devpost/scope.md</span>, <span class="path">prd.md</span>, <span class="path">spec.md</span>, <span class="path">checklist.md</span></li>
+    </ul>
+  </details>
+</body>
+</html>
