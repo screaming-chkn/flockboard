@@ -73,7 +73,7 @@ samples.forEach(function (s) {
 var amb = api.route("do the thing somehow");
 check("ambiguous still picks a role", amb && ["ops", "marketing", "research", "code"].indexOf(amb.role) !== -1);
 
-// Privacy: no real-name / employer tokens in public sources we just wrote
+// Privacy: no real-name / employer tokens in any file we publish
 // Generic checks are public; personal tokens live in an optional gitignored
 // file (.privacy-tokens.local, one token per line) so they never ship.
 var localTokens = [];
@@ -87,7 +87,9 @@ var bannedRe = new RegExp(
   })).join("|"),
   "i"
 );
-["index.html", "app.js", "styles.css", "README.md", "LICENSE"].forEach(function (f) {
+["index.html", "app.js", "styles.css", "README.md", "LICENSE", "SAMPLES.md",
+ "devpost/scope.md", "devpost/prd.md", "devpost/spec.md", "devpost/checklist.md",
+ "devpost/app-map.html"].forEach(function (f) {
   var body = fs.readFileSync(path.join(root, f), "utf8");
   check("privacy: no banned tokens in " + f, !bannedRe.test(body));
 });

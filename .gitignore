@@ -14,3 +14,6 @@ node_modules/
 # Local working brief (may contain personal context)
 BRIEF.md
 .claude/
+
+# Local privacy token list for smoke_test.js (never publish)
+.privacy-tokens.local

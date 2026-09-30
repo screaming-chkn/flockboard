@@ -61,3 +61,12 @@ Activity mode: focused alternative + static map; mechanical smoke as evidence
 - `.claude/` ignored — installer symlinks only; canonical skills live under `.agents/skills/`.
 - Separate `styles.css` — allowed by spec ("or one styles.css"); kept desk-card CSS out of markup for clarity.
 - Hands-on learner browser checks recorded via executor smoke + decide-and-proceed rather than live interactive pause (subagent cannot talk to user).
+
+
+## Revision — 2026-09-30 (pre-ship hardening)
+
+- Fixed: **Copy brief** threw `ReferenceError: root is not defined` in the browser; now uses the page window with a file:// fallback copy.
+- Router: word-boundary patterns, verb-intent bonus, wider vocabulary; brief now adds a per-role "done when" line instead of echoing the task.
+- Card: shows why a role was picked + confidence; unsure/close cards invite a one-tap role switch (still four roles, still human yes/no — kernel unchanged).
+- Tests: added `e2e_test.js` (headless Chrome, no deps) and `eval.js` (blind accuracy 16/24, 3/24 confidently wrong).
+- Privacy: personal tokens moved out of `smoke_test.js` into gitignored `.privacy-tokens.local`; unpushed local history scrubbed before any publish (backup bundle kept outside the repo).
