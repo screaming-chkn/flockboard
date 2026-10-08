@@ -217,3 +217,6 @@ footer {
 }
 .chips button[aria-pressed="true"] { opacity: 1; font-weight: 600; background: rgba(0,0,0,0.06); }
 .chips button:disabled { cursor: default; }
+
+/* Locked Yes/No (after a decision) should look locked, not clickable. */
+#card-actions button:disabled { opacity: 0.45; cursor: not-allowed; filter: none; }

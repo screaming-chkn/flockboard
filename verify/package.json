@@ -1,0 +1,12 @@
+{
+  "name": "flockboard-verify",
+  "private": true,
+  "description": "Browser verification kit for FlockBoard. Not needed to run the app.",
+  "license": "MIT",
+  "scripts": {
+    "verify": "node verify.js"
+  },
+  "devDependencies": {
+    "playwright-core": "1.64.0"
+  }
+}

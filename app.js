@@ -9,7 +9,7 @@
  *   "Draft a launch tweet and newsletter for the new page"   → marketing
  *   "Compare three competitors and summarize findings"       → research
  *   "Fix the login bug and add a unit test for the API"      → code
- *   "Ship inventory count then post social promo"            → ops (ops+marketing; ops wins tie-break priority when scores equal — else highest score)
+ *   "Ship inventory count then post social promo"            → marketing (mixed task; "post social promo" outscores the ops words — use a role chip to switch)
  *   "Look up papers on prompt routing and write a brief"     → research
  *   "Refactor the router and deploy to staging"              → code
  *   "Book a calendar slot for the client kickoff"            → ops
@@ -198,7 +198,9 @@
       role: picked.role,
       confidence: picked.confidence,
       why: picked.score > 0
-        ? scores[picked.role].matched.slice(0, 4)
+        ? scores[picked.role].matched.filter(function (w, i, all) {
+            return all.indexOf(w) === i; // "newsletter" can match two patterns; show it once
+          }).slice(0, 4)
         : [],
       brief: oneLineBrief(picked.role, raw),
       signals: allSignals
@@ -247,6 +249,7 @@
           cardStatus.textContent = "Rejected — edit the task and Route again.";
           yesBtn.disabled = true;
           noBtn.disabled = true;
+          setChipsDisabled(true); // decided: change the role by editing and routing again
         } else {
           card.hidden = true;
           card.className = "card";
@@ -274,6 +277,12 @@
       }
     }
 
+    function setChipsDisabled(off) {
+      if (!chips) return;
+      var btns = chips.querySelectorAll("button[data-role]");
+      for (var i = 0; i < btns.length; i++) btns[i].disabled = off;
+    }
+
     function renderWhy() {
       if (!cardWhy || !state.result) return;
       var r = state.result;
@@ -292,13 +301,14 @@
         for (var i = 0; i < btns.length; i++) {
           var on = btns[i].getAttribute("data-role") === r.role;
           btns[i].setAttribute("aria-pressed", on ? "true" : "false");
-          btns[i].disabled = state.status === "accepted";
         }
       }
+      setChipsDisabled(state.status !== "ready");
     }
 
     function onPickRole(role) {
-      if (!state.result || state.status === "accepted") return;
+      // Chips only work on an open card; a decided card (Yes or No) needs Route again.
+      if (!state.result || state.status !== "ready") return;
       state.result = {
         role: role,
         brief: briefFor(role, state.task),
@@ -332,12 +342,14 @@
     function onYes() {
       if (!state.result || state.status !== "ready") return;
       state.status = "accepted";
+      setFormMessage("Approved — brief locked.", "hint");
       renderCard();
     }
 
     function onNo() {
-      if (!state.result) return;
+      if (!state.result || state.status !== "ready") return;
       state.status = "rejected";
+      setFormMessage("Rejected — edit and Route again.", "hint");
       renderCard();
       taskEl.focus();
     }
