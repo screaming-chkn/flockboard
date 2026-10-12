@@ -1,7 +1,7 @@
 # FlockBoard: Devpost Submission Prep
 
 Contest: Build With AI: Basics (Devpost) · deadline **Mon Oct 26, 2:00 PM PT** (5:00 PM ET)
-Repo: https://github.com/screaming-chkn/flockboard (public, MIT) · last pushed `bcf494c`; newer local commits (this prep file, the `verify/` kit) **must be pushed before submit**
+Repo: https://github.com/screaming-chkn/flockboard (public, MIT) · last pushed `2608074` (includes this prep file and the `verify/` kit)
 Prep owner: Grok Build · prep due Fri Oct 9, 5:00 PM PT
 **Hook QC: PASS 2026-10-07 (Hook QC notes kept off-repo)**
 
